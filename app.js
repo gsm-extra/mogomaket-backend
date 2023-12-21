@@ -41,9 +41,8 @@ db.connect((err) => {
 
 // 회원가입
 app.get('/extra-membergaib',(req,res)=>{
-    console.log('회원가입 페이지');
     res.sendFile(__dirname + '/views/extra-membergaib.html');
-    
+    console.log('회원가입 페이지');
 });
 
 app.post('/extra-membergaib',(req,res)=>{
@@ -65,7 +64,9 @@ app.post('/extra-membergaib',(req,res)=>{
             db.query('insert into members(nickname, name, password) values(?,?,?)', [
                 nickname, name,password
             ]);
-            res.sendFile(__dirname + '/views/index.html');
+            db.query('commit');
+            res.sendFile(__dirname + '/views/index.html');      
+            res.redirect('login');
         } else {
             console.log('회원가입 실패');
             res.send('<script>alert("회원가입 실패");</script>')
@@ -116,6 +117,9 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`start server ${port}`);
 });
+
+
+
 
 
 
