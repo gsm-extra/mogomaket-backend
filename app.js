@@ -41,9 +41,8 @@ db.connect((err) => {
 
 // 회원가입
 app.get('/extra-membergaib',(req,res)=>{
-    console.log('회원가입 페이지');
     res.sendFile(__dirname + '/views/extra-membergaib.html');
-    
+    console.log('회원가입 페이지');
 });
 
 app.post('/extra-membergaib',(req,res)=>{
@@ -65,7 +64,9 @@ app.post('/extra-membergaib',(req,res)=>{
             db.query('insert into members(nickname, name, password) values(?,?,?)', [
                 nickname, name,password
             ]);
-            res.sendFile(__dirname + '/views/index.html');
+            db.query('commit');
+            res.sendFile(__dirname + '/views/index.html');      
+            res.redirect('login');
         } else {
             console.log('회원가입 실패');
             res.send('<script>alert("회원가입 실패");</script>')
@@ -97,6 +98,7 @@ app.post('/login',(req,res)=>{
           console.log('로그인 됨')
           req.session.user = results[0];
           res.sendFile(__dirname + '/views/extra-home.html');
+          res.redirect('home');
 
         } else {
           res.send('Invalid nickname or password.');
@@ -110,8 +112,17 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     res.sendFile(__dirname + '/views/index.html');
   });
+  
+//홈
+app.get('/home',(req,res)=>{
+    console.log('홈');
+    res.sendFile(__dirname + '/views/exta-home.html');
+});
+
+
 
 // 서버 시작
+
 const port = 3000;
 app.listen(port, () => {
     console.log(`start server ${port}`);
