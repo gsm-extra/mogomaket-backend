@@ -57,13 +57,12 @@ app.post('/extra-membergaib',(req,res)=>{
             return;
         }
         
-        if (data.length == 0) {
+        if (data.length <= 0) {
             console.log('회원가입 성공');
             db.query('insert into members(nickname, name, password) values(?,?,?)', [
                 nickname, name,password
             ]);
             db.query('commit');
-            res.sendFile(__dirname + '/views/index.html');      
             res.redirect('login');
         } else {
             console.log('회원가입 실패');
@@ -86,20 +85,20 @@ app.post('/login',(req,res)=>{
 
     db.query('SELECT * FROM members WHERE nickname = ? AND password = ?', [nickname,password], (err, results) => {
         if (err) {
-          console.error('MySQL query error:', err);
-          res.status(500).send('Internal Server Error');
-          return;
+            console.error('MySQL query error:', err);
+            res.status(500).send('Internal Server Error');
+            return;
         }
     
         if (results.length > 0) {
-          // Store user information in the session
-          console.log('로그인 됨')
-          req.session.user = results[0];
-          res.sendFile(__dirname + '/views/extra-home.html');
-          res.redirect('home');
+            console.log('로그인 됨')
+            req.session.user = results[0];
+            res.redirect('home');
 
         } else {
-          res.send('Invalid nickname or password.');
+
+            console.log('로그인 실패')
+            res.send('Invalid nickname or password.');
         }
       });   
     
