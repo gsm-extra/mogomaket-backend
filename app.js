@@ -11,8 +11,6 @@ const cookieParser = require('cookie-parser');;
 const app = express(); // 이 부분을 앞으로 이동
 
 
-
-
 app.use(express.static(__dirname + '/views'));
 
 // MySQL 연결 설정
@@ -111,18 +109,18 @@ app.get('/logout', (req, res) => {
     // Destroy the session to log the user out
     req.session.destroy();
     res.sendFile(__dirname + '/views/index.html');
+    res.redirect('login');
   });
   
 //홈
 app.get('/home',(req,res)=>{
     console.log('홈');
-    res.sendFile(__dirname + '/views/exta-home.html');
+    res.sendFile(__dirname + '/views/extra-home.html');
 });
 
 
 
 // 서버 시작
-
 const port = 3000;
 app.listen(port, () => {
     console.log(`start server ${port}`);
