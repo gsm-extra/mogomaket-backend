@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const mysql = require('mysql');
 const express = require('express');
@@ -49,7 +50,7 @@ app.post('/extra-membergaib',(req,res)=>{
     //const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
 
-    db.query('select * from members where id=?',[nickname],(err,data)=>{
+    db.query('select * from members where nickname=?',[nickname],(err,data)=>{
         
         if (err) {
             console.error('MySQL query error:', err);
@@ -66,8 +67,7 @@ app.post('/extra-membergaib',(req,res)=>{
             res.redirect('login');
         } else {
             console.log('회원가입 실패');
-            res.send('<script>alert("회원가입 실패");</script>')
-            res.redirect('extra-membergaib');
+            res.send('<script>alert("회원가입 실패");location.href="/extra-membergaib";</script>');
         }
        
     });
@@ -118,15 +118,9 @@ app.get('/home',(req,res)=>{
 });
 
 
-
 // 서버 시작
 const port = 3000;
 app.listen(port, () => {
     console.log(`start server ${port}`);
 });
-
-
-
-
-
 
