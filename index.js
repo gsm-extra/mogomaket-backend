@@ -12,7 +12,7 @@ const cookieParser = require('cookie-parser');;
 const app = express(); // 이 부분을 앞으로 이동
 
 
-app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/src'));
 
 // MySQL 연결 설정
 const db = mysql.createConnection({
@@ -40,14 +40,14 @@ db.connect((err) => {
 
 // 회원가입
 app.get('/extra-membergaib',(req,res)=>{
-    res.sendFile(__dirname + '/views/extra-membergaib.html');
+    res.sendFile(__dirname + '/src/extra-membergaib.html');
     console.log('회원가입 페이지');
 });
 
 app.post('/extra-membergaib',(req,res)=>{
     console.log('회원가입 하는중')
     const { nickname, name, password } = req.body;   //name
-    //const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
 
     db.query('select * from members where nickname=?',[nickname],(err,data)=>{
@@ -61,7 +61,7 @@ app.post('/extra-membergaib',(req,res)=>{
         if (data.length <= 0) {
             console.log('회원가입 성공');
             db.query('insert into members(nickname, name, password) values(?,?,?)', [
-                nickname, name,password
+                nickname, name,hashedPassword
             ]);
             db.query('commit');
             res.redirect('login');
@@ -75,15 +75,15 @@ app.post('/extra-membergaib',(req,res)=>{
 // 로그인
 app.get('/login',(req,res)=>{
     console.log('로그인 작동');
-    res.sendFile(__dirname + '/views/index.html');
+    res.sendFile(__dirname + '/src/index.html');
 });
 
 app.post('/login',(req,res)=>{
     const { nickname, password } = req.body;
-    //const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
     console.log('로그인 하는중')
 
-    db.query('SELECT * FROM members WHERE nickname = ? AND password = ?', [nickname,password], (err, results) => {
+    db.query('SELECT * FROM members WHERE nickname = ? AND password = ?', [nickname,hashedPassword], (err, results) => {
         if (err) {
             console.error('MySQL query error:', err);
             res.status(500).send('Internal Server Error');
@@ -107,14 +107,14 @@ app.post('/login',(req,res)=>{
 app.get('/logout', (req, res) => {
     // Destroy the session to log the user out
     req.session.destroy();
-    res.sendFile(__dirname + '/views/index.html');
+    res.sendFile(__dirname + '/srcs/index.html');
     res.redirect('login');
   });
   
 //홈
 app.get('/home',(req,res)=>{
     console.log('홈');
-    res.sendFile(__dirname + '/views/extra-home.html');
+    res.sendFile(__dirname + '/src/extra-home.html');
 });
 
 
