@@ -47,7 +47,7 @@ app.get('/extra-membergaib',(req,res)=>{
 app.post('/extra-membergaib',(req,res)=>{
     console.log('회원가입 하는중')
     const { nickname, name, password } = req.body;   //name
-    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    // const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
 
     db.query('select * from members where nickname=?',[nickname],(err,data)=>{
@@ -61,7 +61,7 @@ app.post('/extra-membergaib',(req,res)=>{
         if (data.length <= 0) {
             console.log('회원가입 성공');
             db.query('insert into members(nickname, name, password) values(?,?,?)', [
-                nickname, name,hashedPassword
+                nickname, name,password
             ]);
             db.query('commit');
             res.redirect('login');
@@ -80,10 +80,10 @@ app.get('/login',(req,res)=>{
 
 app.post('/login',(req,res)=>{
     const { nickname, password } = req.body;
-    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    // const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
     console.log('로그인 하는중')
 
-    db.query('SELECT * FROM members WHERE nickname = ? AND password = ?', [nickname,hashedPassword], (err, results) => {
+    db.query('SELECT * FROM members WHERE nickname = ? AND password = ?', [nickname,password], (err, results) => {
         if (err) {
             console.error('MySQL query error:', err);
             res.status(500).send('Internal Server Error');
