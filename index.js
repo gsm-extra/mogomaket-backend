@@ -119,7 +119,7 @@ app.get('/home',(req,res)=>{
 
 
 // 서버 시작
-const port = 3000;
+const port = 3010;
 app.listen(port, () => {
     console.log(`start server ${port}`);
 });

@@ -222,8 +222,8 @@
     "socket.io-parser": "^4.2.4",
     "sqlstring": "^2.3.1",
     "statuses": "^2.0.1",
-    "string-width": "^4.2.3",
     "string_decoder": "^1.1.1",
+    "string-width": "^4.2.3",
     "strip-ansi": "^6.0.1",
     "supports-color": "^7.2.0",
     "supports-preserve-symlinks-flag": "^1.0.0",
@@ -248,6 +248,7 @@
     "uuid": "^8.3.2",
     "validator": "^13.11.0",
     "vary": "^1.1.2",
+    "vercel": "^33.0.1",
     "void-elements": "^3.1.0",
     "webidl-conversions": "^3.0.1",
     "whatwg-url": "^5.0.0",
@@ -259,7 +260,6 @@
     "ws": "^8.11.0",
     "yallist": "^4.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
