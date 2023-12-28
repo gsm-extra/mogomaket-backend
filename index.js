@@ -98,7 +98,7 @@ app.post('/login',(req,res)=>{
         } else {
 
             console.log('로그인 실패')
-            res.send('Invalid nickname or password.');
+            res.send('<script>alert("로그인 실패");location.href="/login";</script>');
         }
       });   
     
