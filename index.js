@@ -122,9 +122,4 @@ app.get('/home',(req,res)=>{
 const port = 3010;
 app.listen(port, () => {
     console.log(`start server ${port}`);
-
-
-
-
-    
 });
